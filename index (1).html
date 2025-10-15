@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDFZambia - Constituency Development Fund Application Portal</title>
+    <style>
+        :root {
+            --green: #198a00;
+            --red: #de2010;
+            --black: #000000;
+            --orange: #ff8c00;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--green) 0%, var(--red) 50%, var(--orange) 100%);
+            color: var(--black);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px 0;
+            border-bottom: 5px solid var(--green);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        
+        .logo {
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: var(--green);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            letter-spacing: 1px;
+        }
+        
+        .logo-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--red);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .flag-colors {
+            height: 12px;
+            background: linear-gradient(to right, var(--green) 33%, var(--red) 33%, var(--red) 66%, var(--orange) 66%);
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin-top: 15px;
+        }
+        
+        nav ul li {
+            margin: 0 15px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--black);
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            background-color: var(--green);
+            color: var(--white);
+        }
+        
+        .hero {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 50px 40px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--green) 33%, var(--red) 33%, var(--red) 66%, var(--orange) 66%);
+        }
+        
+        .hero h1 {
+            color: var(--green);
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            color: #333;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--green);
+            color: var(--white);
+            padding: 14px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn:hover {
+            background-color: var(--red);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .category {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px 25px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid var(--green);
+        }
+        
+        .category:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .category i {
+            font-size: 3rem;
+            color: var(--green);
+            margin-bottom: 20px;
+        }
+        
+        .category h3 {
+            color: var(--green);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .category p {
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .application-form {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 10px;
+            margin: 40px 0;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid var(--green);
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .form-header h2 {
+            color: var(--green);
+            font-size: 2rem;
+        }
+        
+        .form-header p {
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--green);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(25, 138, 0, 0.2);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .admin-login {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 10px;
+            margin: 40px 0;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid var(--green);
+        }
+        
+        .admin-login h2 {
+            color: var(--green);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+        
+        footer {
+            background-color: rgba(0, 0, 0, 0.85);
+            color: var(--white);
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 280px;
+            margin-bottom: 25px;
+        }
+        
+        .footer-section h3 {
+            color: var(--orange);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-section h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--green);
+        }
+        
+        .contact-info {
+            list-style: none;
+        }
+        
+        .contact-info li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-info li i {
+            margin-right: 12px;
+            color: var(--green);
+            font-size: 1.1rem;
+            width: 20px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 25px;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+        
+        .creator {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            color: var(--black);
+            font-size: 1.1rem;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .applications-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .applications-table th, .applications-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .applications-table th {
+            background-color: var(--green);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .applications-table tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .status-pending {
+            color: var(--orange);
+            font-weight: bold;
+        }
+        
+        .status-approved {
+            color: var(--green);
+            font-weight: bold;
+        }
+        
+        .status-rejected {
+            color: var(--red);
+            font-weight: bold;
+        }
+        
+        .admin-actions button {
+            padding: 8px 15px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .approve-btn {
+            background-color: var(--green);
+            color: white;
+        }
+        
+        .reject-btn {
+            background-color: var(--red);
+            color: white;
+        }
+        
+        .view-btn {
+            background-color: var(--orange);
+            color: white;
+        }
+        
+        .admin-actions button:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+        
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+            display: none;
+        }
+        
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+            display: none;
+        }
+        
+        .application-details {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid var(--green);
+        }
+        
+        .application-details h3 {
+            color: var(--green);
+            margin-bottom: 15px;
+        }
+        
+        .detail-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .detail-label {
+            font-weight: bold;
+            width: 150px;
+        }
+        
+        .detail-value {
+            flex: 1;
+        }
+        
+        .application-image {
+            max-width: 200px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav ul li {
+                margin: 8px 0;
+            }
+            
+            .logo {
+                font-size: 2.2rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .detail-row {
+                flex-direction: column;
+            }
+            
+            .detail-label {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <div class="logo">CDFZambia</div>
+            </div>
+            <div class="logo-subtitle">Constituency Development Fund - Zambia</div>
+            <div class="flag-colors"></div>
+            <nav>
+                <ul>
+                    <li><a href="#" onclick="showSection('home')">Home</a></li>
+                    <li><a href="#" onclick="showSection('apply')">Apply for Funds</a></li>
+                    <li><a href="#" onclick="showSection('admin-login')">Admin Login</a></li>
+                    <li><a href="#" onclick="showSection('contact')">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Home Section -->
+        <section id="home" class="section">
+            <div class="hero">
+                <h1>Constituency Development Fund - Zambia</h1>
+                <p>Providing financial assistance to vulnerable groups including persons with disabilities, orphans, the elderly, students, and other vulnerable members of our society through constituency-based development initiatives.</p>
+                <a href="#" class="btn" onclick="showSection('apply')">Apply Now</a>
+            </div>
+
+            <div class="categories">
+                <div class="category">
+                    <i class="fas fa-wheelchair"></i>
+                    <h3>Persons with Disabilities</h3>
+                    <p>Financial support for individuals with disabilities to improve their quality of life and promote inclusion.</p>
+                </div>
+                <div class="category">
+                    <i class="fas fa-child"></i>
+                    <h3>Orphans</h3>
+                    <p>Assistance for orphans to ensure they have access to basic needs, education, and healthcare services.</p>
+                </div>
+                <div class="category">
+                    <i class="fas fa-user-friends"></i>
+                    <h3>Vulnerable Groups</h3>
+                    <p>Support for vulnerable individuals and families in our communities facing economic hardships.</p>
+                </div>
+                <div class="category">
+                    <i class="fas fa-user-clock"></i>
+                    <h3>Elderly</h3>
+                    <p>Financial aid for elderly citizens to help with medical expenses, food, and daily living needs.</p>
+                </div>
+                <div class="category">
+                    <i class="fas fa-school"></i>
+                    <h3>Schools</h3>
+                    <p>Funding for schools in underserved communities to improve educational facilities and resources.</p>
+                </div>
+                <div class="category">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Students</h3>
+                    <p>Scholarships and bursaries for students from disadvantaged backgrounds to pursue education.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Application Form Section -->
+        <section id="apply" class="section hidden">
+            <div class="application-form">
+                <div class="form-header">
+                    <h2>Apply for CDF Funds</h2>
+                    <p>Please fill out the form below with accurate information. All fields are required.</p>
+                </div>
+                
+                <form id="fundApplicationForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName"><i class="fas fa-user"></i> Full Name</label>
+                            <input type="text" id="fullName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone"><i class="fas fa-phone"></i> Phone Number</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="e.g. 0964959127" pattern="(096|097|076|077).{7}" title="Please enter a valid Zambian phone number (Airtel, MTN, or Zamtel)" required>
+                            <small>Must be a Zambian number (Airtel, MTN, or Zamtel)</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nrc"><i class="fas fa-id-card"></i> National Registration Card (NRC) Number</label>
+                            <input type="text" id="nrc" class="form-control" placeholder="e.g. 123456/78/9" pattern="\d{6}\/\d{2}\/\d{1}" title="Please enter a valid NRC number in the format: 123456/78/9" required>
+                            <small>Format: 123456/78/9 (Zambian NRC only)</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="constituency"><i class="fas fa-map-marker-alt"></i> Constituency</label>
+                            <select id="constituency" class="form-control" required>
+                                <option value="">Select Your Constituency</option>
+                                <option value="lusaka-central">Lusaka Central</option>
+                                <option value="mandevu">Mandevu</option>
+                                <option value="kabwata">Kabwata</option>
+                                <option value="matero">Matero</option>
+                                <option value="chawama">Chawama</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="category"><i class="fas fa-list"></i> Category</label>
+                            <select id="category" class="form-control" required>
+                                <option value="">Select Category</option>
+                                <option value="disability">Person with Disability</option>
+                                <option value="vulnerable">Vulnerable Individual</option>
+                                <option value="orphan">Orphan</option>
+                                <option value="elderly">Elderly Person</option>
+                                <option value="school">School</option>
+                                <option value="student">Student</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="amount"><i class="fas fa-money-bill-wave"></i> Requested Amount (ZMW)</label>
+                            <input type="number" id="amount" class="form
